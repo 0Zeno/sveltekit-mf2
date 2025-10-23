@@ -1,0 +1,4 @@
+{
+  "test": "Hola {#bold}{$world}!{/bold}",
+  "bye": "adios {#italic}{$name}{/italic}"
+}

@@ -1,3 +1,4 @@
 {
-  "test": "Hello {#bold}{$world}!{/bold}"
+  "test": "Hello {#bold}{$world}!{/bold}",
+  "bye": "Bye {#italic}{$name}{/italic}"
 }

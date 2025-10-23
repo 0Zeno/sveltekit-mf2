@@ -10,6 +10,14 @@ const config = {
           await import("./en/common.json")
         ).default,
     },
+   {
+      locale: "es",
+      key: "common",
+      loader: async () =>
+        (
+          await import("./es/common.json")
+        ).default,
+    },
   ],
   parser: {
     parse(value: string, [props]: Record<string, any>[], locale: string) {
@@ -18,4 +26,4 @@ const config = {
   } 
 };
 
-export const { t, locale, locales, loading, loadTranslations } = new i18n(config);
+export const {setLocale, t, locale, locales, loading, loadTranslations } = new i18n(config);
