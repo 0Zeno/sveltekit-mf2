@@ -1,17 +1,19 @@
 <script lang="ts">
-  import { t } from "$lib/translations.js";
+  import { getContext } from 'svelte';
+ import type { Readable } from 'svelte/store';
   import { MessageFormat } from "messageformat";
   import { partsToTree, type TreeNode } from "./partsToTree.js";
 
   const { id, props } = $props();
 
-  const trans = $derived($t(id, props));
-  const mf = $derived(trans.value && trans.value.trim() ? new MessageFormat(trans.value, trans.locale) : null);
-  
+  const t = getContext<Readable<any>>('sveltekit-i18n-mf2');
 
-  const translation = $derived(mf ? mf.formatToParts(props || {}) : []);
-  const tree = $derived(partsToTree(translation));
+  const trans = $derived($t(id, props));
   
+  const mf = $derived(new MessageFormat(trans.locale, trans.value));
+  const translation = $derived(mf.formatToParts(props));
+  const tree = $derived(partsToTree(translation));
+
 </script>
 
 {#snippet renderNode(node: TreeNode)}
@@ -55,11 +57,6 @@
   {/if}
 {/snippet}
 
-{#if trans.value}
-  {#each tree as node}
-    {@render renderNode(node)}
-  {/each}
-{:else}
-  <!-- Show the key as fallback -->
-  <span style="color: orange;">[{id}]</span>
-{/if}
+{#each tree as node}
+  {@render renderNode(node)}
+{/each}
