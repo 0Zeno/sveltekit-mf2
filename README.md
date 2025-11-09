@@ -74,9 +74,9 @@ Inside of your `+layout.svelte` use the `<FormatterProvider>` by importing `t` a
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
   import { FormatterProvider } from 'sveltekit-mf2';
+	import { t } from "$lib/translations"
 
 	let { children } = $props();
-	import { t } from "$lib/translations"
 </script>
 
 <svelte:head>
@@ -131,6 +131,9 @@ The `<Formatter>` component takes in an id which uses the loader key and the key
 
 
 ## References
+
+[Message Format 2](https://messageformat.unicode.org/)
+[svleltekit-i18n/base](https://github.com/sveltekit-i18n/base)
 
 ### Provider
 
