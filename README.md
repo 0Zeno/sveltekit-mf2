@@ -9,14 +9,14 @@ npm install sveltekit-mf2
 
 # Guide
 
-## 1. Install sveltekit-i18n/base and messageformat
+## 1. Install @sveltekit-i18n/base and messageformat
 
 ```bash
 npm install @sveltekit-i18n/base messageformat
 ```
 
 ## 2. Setup i18n
-Create the `translations.ts` file in you `lib` folder. Inside paste the following code:
+Create the `translations.ts` file in you `lib` folder.
 
 ```ts
 import i18n from "@sveltekit-i18n/base";
@@ -52,7 +52,7 @@ export const {setLocale, t, locale, locales, loading, loadTranslations } = new i
 ```json
 {
   "test": "Hello {#bold}{$world}!{/bold}",
-  "bye": "Bye {#italic}{$name}{/italic}"
+  "bye": "Bye"
 }
 ```
 
@@ -60,7 +60,7 @@ export const {setLocale, t, locale, locales, loading, loadTranslations } = new i
 ```json
 {
   "test": "Hola {#bold}{$world}!{/bold}",
-  "bye": "adios {#italic}{$name}{/italic}"
+  "bye": "adios"
 }
 ```
 
@@ -68,7 +68,7 @@ export const {setLocale, t, locale, locales, loading, loadTranslations } = new i
 #### Make sure to not change the parser!
 
 ## 3. Use the FormatterProvider
-Inside of your `+layout.svelte` use the `<FormatterProvider>` by importing `t` and sorounding children in the provider as shown:
+Inside of your `+layout.svelte` use the `<FormatterProvider>` by importing `t` and sorounding `{@render children}` with the provider.
 
 ```ts
 <script lang="ts">
@@ -89,27 +89,24 @@ Inside of your `+layout.svelte` use the `<FormatterProvider>` by importing `t` a
 ```
 
 ## 4. Set the default locale and load the translations
-Create a `layout.ts` file in your routes folder and paste the following code:
+Create a `layout.ts` file in your routes folder.
 
 ```ts
-import { loadTranslations } from '$lib/translations';
+import { loadTranslations } from "$lib/translations";
+
+const initLocale = "en";
 
 export const load = async ({ url }) => {
-  const { pathname } = url;
-
-  const initLocale = "en"; 
-
-  await loadTranslations(initLocale, pathname); 
-
-  return {};
-}
+	await loadTranslations(initLocale, url.pathname);
+};
 ```
 
 
 ## 5. Use the Formatter component in you application
+The `<Formatter>` component takes in an id which uses the loader key and the key value in the JSON oject to reference the correct line. Props are the variables passed to the Messageformat string.
 ```ts
 <script>
-  import { setLocale, locales } from "$lib/translations";
+  import { setLocale } from "$lib/translations";
   import { Formatter } from "sveltekit-mf2";
 
 
@@ -123,8 +120,9 @@ export const load = async ({ url }) => {
 </script>
 
 <div>
-  <Formatter id="common.test" props={{ world: "SvelteKit" }} />
-  <Formatter id="common.bye" props={{ name: "zeno" }} />
+  <Formatter id="common.test" values={{ world: "SvelteKit" }} />
+  // values is optional
+  <Formatter id="common.bye" />
 
   <button onclick={switchToEnglish}>english</button>
   <button onclick={switchToSpanish}>spanish</button>

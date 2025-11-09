@@ -1,17 +1,23 @@
 <script lang="ts">
   import { getContext } from 'svelte';
- import type { Readable } from 'svelte/store';
+  import type { Readable } from 'svelte/store';
   import { MessageFormat } from "messageformat";
   import { partsToTree, type TreeNode } from "./partsToTree.js";
 
-  const { id, props } = $props();
+  interface Props {
+    id: string;
+    values?: Record<string, any>;
+  }
+
+  const { id, values = {} }: Props = $props();
+  
 
   const t = getContext<Readable<any>>('sveltekit-i18n-mf2');
 
-  const trans = $derived($t(id, props));
+  const trans = $derived($t(id, values));
   
   const mf = $derived(new MessageFormat(trans.locale, trans.value));
-  const translation = $derived(mf.formatToParts(props));
+  const translation = $derived(mf.formatToParts(values));
   const tree = $derived(partsToTree(translation));
 
 </script>
