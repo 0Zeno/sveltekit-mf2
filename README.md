@@ -46,6 +46,25 @@ const config = {
 export const {setLocale, t, locale, locales, loading, loadTranslations } = new i18n(config);
 ```
 
+### The locale files
+
+`en/common.json`
+```json
+{
+  "test": "Hello {#bold}{$world}!{/bold}",
+  "bye": "Bye {#italic}{$name}{/italic}"
+}
+```
+
+`es/common.json`
+```json
+{
+  "test": "Hola {#bold}{$world}!{/bold}",
+  "bye": "adios {#italic}{$name}{/italic}"
+}
+```
+
+
 #### Make sure to not change the parser!
 
 ## 3. Use the FormatterProvider
