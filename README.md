@@ -12,7 +12,7 @@ npm install sveltekit-mf2
 ## 1. Install sveltekit-i18n/base and messageformat
 
 ```bash
-npm install sveltekit-i18n/base messageformat
+npm install @sveltekit-i18n/base messageformat
 ```
 
 ## 2. Setup i18n
