@@ -1,34 +1,131 @@
 # SvelteKit MF2
 
-A localization library for SvelteKit based on @sveltekit-i18n/base and Message Format 2.
+A localization library for SvelteKit based on [sveltekit-i18n/base](https://github.com/sveltekit-i18n/base) and [MessageFormat2](https://messageformat.unicode.org/).
 
 ## Installation
 ```bash
 npm install sveltekit-mf2
 ```
 
+# Guide
 
-## Supported Markup Tags
+## 1. Install sveltekit-i18n/base and messageformat
 
-The library supports the following markup tags out of the box:
+```bash
+npm install sveltekit-i18n/base messageformat
+```
 
-- `{#bold}...{/bold}` - Bold text (`<b>`)
-- `{#italic}...{/italic}` - Italic text (`<i>`)
-- `{#link to="url"}...{/link}` - Hyperlinks (`<a>`)
-- `{#link}...{/link}` - Links without href (underlined)
-- `{#error}...{/error}` - Error styling (red text)
-- `{#star-icon/}` - Standalone star icon (⭐)
+## 2. Setup i18n
+Create the `translations.ts` file in you `lib` folder. Inside paste the following code:
 
-## API Reference
+```ts
+import i18n from "@sveltekit-i18n/base";
+const config = {
+  // Add your languages in the loaderfunction eaither from JSON files or directly as JSON
+  loaders: [
+    {
+      locale: "en",
+      key: "common",
+      loader: async () =>
+        ( await import("./en/common.json")).default,
+    },
+   {
+      locale: "es",
+      key: "common",
+      loader: async () =>
+        (await import("./es/common.json")).default,
+    },
+  ],
+  parser: {
+    parse(value: string, [props]: Record<string, any>[], locale: string) {
+      return { value, props, locale}
+    }
+  } 
+};
 
-### Components
+export const {setLocale, t, locale, locales, loading, loadTranslations } = new i18n(config);
+```
 
-#### `<Formatter>`
+#### Make sure to not change the parser!
+
+## 3. Use the FormatterProvider
+Inside of your `+layout.svelte` use the `<FormatterProvider>` by importing `t` and sorounding children in the provider as shown:
+
+```ts
+<script lang="ts">
+	import favicon from '$lib/assets/favicon.svg';
+  import { FormatterProvider } from 'sveltekit-mf2';
+
+	let { children } = $props();
+	import { t } from "$lib/translations"
+</script>
+
+<svelte:head>
+	<link rel="icon" href={favicon} />
+</svelte:head>
+
+<FormatterProvider {t}>
+	{@render children()}
+</FormatterProvider>
+```
+
+## 4. Set the default locale and load the translations
+Create a `layout.ts` file in your routes folder and paste the following code:
+
+```ts
+import { loadTranslations } from '$lib/translations';
+
+export const load = async ({ url }) => {
+  const { pathname } = url;
+
+  const initLocale = "en"; 
+
+  await loadTranslations(initLocale, pathname); 
+
+  return {};
+}
+```
+
+
+## 5. Use the Formatter component in you application
+```ts
+<script>
+  import { setLocale, locales } from "$lib/translations";
+  import { Formatter } from "sveltekit-mf2";
+
+
+  function switchToEnglish() {
+    setLocale("en");
+  }
+
+  function switchToSpanish() {
+    setLocale("es");
+  }
+</script>
+
+<div>
+  <Formatter id="common.test" props={{ world: "SvelteKit" }} />
+  <Formatter id="common.bye" props={{ name: "zeno" }} />
+
+  <button onclick={switchToEnglish}>english</button>
+  <button onclick={switchToSpanish}>spanish</button>
+</div>
+```
+
+
+## References
+
+### Provider
+
+#### `<FormatterProvider>`
+
+Props:
+    `t` - The `t` function from the `i18n` object
+
+### Component
+
+##### `<Formatter>`
 
 Props:
 - `id: string` - Translation key (e.g., "common.greeting")
 - `props: Record<string, any>` - Variables to interpolate
-
-
-
-# test
