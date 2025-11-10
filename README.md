@@ -21,19 +21,19 @@ npm install @sveltekit-i18n/base messageformat
 Create the `translations.ts` file in you `lib` folder.
 
 ```ts
-import i18n from '@sveltekit-i18n/base';
+import i18n from "@sveltekit-i18n/base";
 const config = {
 	// Add your languages in the loaderfunction eaither from JSON files or directly as JSON
 	loaders: [
 		{
-			locale: 'en',
-			key: 'common',
-			loader: async () => (await import('./en/common.json')).default
+			locale: "en",
+			key: "common",
+			loader: async () => (await import("./en/common.json")).default
 		},
 		{
-			locale: 'es',
-			key: 'common',
-			loader: async () => (await import('./es/common.json')).default
+			locale: "es",
+			key: "common",
+			loader: async () => (await import("./es/common.json")).default
 		}
 	],
 	parser: {
@@ -95,9 +95,9 @@ Inside of your `+layout.svelte` use the `<FormatterProvider>` by importing `t` a
 Create a `layout.ts` file in your routes folder.
 
 ```ts
-import { loadTranslations } from '$lib/translations';
+import { loadTranslations } from "$lib/translations";
 
-const initLocale = 'en';
+const initLocale = "en";
 
 export const load = async ({ url }) => {
 	await loadTranslations(initLocale, url.pathname);
