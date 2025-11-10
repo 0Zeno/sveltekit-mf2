@@ -23,7 +23,7 @@ Create the `translations.ts` file in you `lib` folder.
 ```ts
 import i18n from "@sveltekit-i18n/base";
 const config = {
-	// Add your languages in the loaderfunction eaither from JSON files or directly as JSON
+	// Add your languages in the loaderfunction either from JSON files or directly as JSON
 	loaders: [
 		{
 			locale: "en",
