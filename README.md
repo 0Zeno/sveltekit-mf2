@@ -70,7 +70,7 @@ export const { setLocale, t, locale, locales, loading, loadTranslations } = new 
 
 ## 3. Use the FormatterProvider
 
-Inside of your `+layout.svelte` use the `<FormatterProvider>` by importing `t` and sorounding `{@render children}` with the provider.
+Inside of your `+layout.svelte` use the `<FormatterProvider>` by importing `t` and surrounding `{@render children}` with the provider.
 
 ```ts
 <script lang="ts">
@@ -104,7 +104,7 @@ export const load = async ({ url }) => {
 };
 ```
 
-## 5. Use the Formatter component in you application
+## 5. Use the Formatter component in your application
 
 The `<Formatter>` component takes in an id which uses the loader key and the key value in the JSON oject to reference the correct line. Props are the variables passed to the Messageformat string.
 
@@ -136,7 +136,7 @@ The `<Formatter>` component takes in an id which uses the loader key and the key
 ## References
 
 [Message Format 2](https://messageformat.unicode.org/)
-[svleltekit-i18n/base](https://github.com/sveltekit-i18n/base)
+[sveltekit-i18n/base](https://github.com/sveltekit-i18n/base)
 
 ### Provider
 
