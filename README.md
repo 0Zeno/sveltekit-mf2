@@ -43,7 +43,9 @@ const config = {
 	}
 };
 
-export const { setLocale, t, locale, locales, loading, loadTranslations } = new i18n(config);
+export const { setLocale, t, locale, locales, loading, loadTranslations } = new i18n(
+	config
+);
 ```
 
 ### The locale files
