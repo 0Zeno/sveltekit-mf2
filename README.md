@@ -155,3 +155,9 @@ Props:
 
 - `id: string` - Translation key (e.g., "common.greeting")
 - `values: Record<string, any>` - Variables to interpolate
+
+
+## License
+
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
